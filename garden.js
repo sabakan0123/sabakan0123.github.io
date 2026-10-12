@@ -57,7 +57,7 @@
     function render(now) {
       frameId=0;
       if(!ready||lost||!visible||document.hidden)return;
-      gl.uniform1f(uTime,now/1000); gl.uniform3fv(uRipples,ripples); gl.drawArrays(gl.TRIANGLES,0,6);
+      gl.uniform1f(uTime,now/1000); gl.uniform3fv(uRipples,ripples); gl.drawArrays(gl.TRIANGLES,0,6); surface.classList.add('ready');
       if(now<until&&!reduced.matches)frameId=requestAnimationFrame(render);
     }
     function request(){if(!frameId)frameId=requestAnimationFrame(render);}
@@ -69,7 +69,7 @@
     }
     new ResizeObserver(resize).observe(surface);
     new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible)request();}).observe(surface);
-    image.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image);ready=true;resize();surface.classList.add('ready');};
+    image.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image);ready=true;resize();};
     image.src=surface.dataset.waterImage;
     function ripple(x,y){
       if(reduced.matches||!ready||lost)return;
