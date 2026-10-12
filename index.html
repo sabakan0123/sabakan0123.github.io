@@ -8,14 +8,14 @@
 <title>Sabakan / Portfolio</title>
 <link href="assets/cat.svg" rel="icon" type="image/svg+xml"/>
 <link href="styles.css" rel="stylesheet"/><link href="oil-edition.css" rel="stylesheet"/>
-<link as="image" href="assets/watergarden-shorthair.webp" rel="preload"/>
+<link as="image" href="assets/monet-agapanthus.webp" rel="preload"/>
 <link href="entrance.css" rel="stylesheet"/>
-<link as="image" href="assets/tuxedo-motion.webp" rel="preload"/>
+<link as="image" href="assets/tuxedo-paw.webp" rel="preload"/>
 <script defer src="entrance.js"></script>
 <script defer src="garden.js"></script>
 </head>
 <body class="edition-oil">
-<div class="entrance" id="entrance" role="dialog" aria-modal="true" aria-label="短毛のハチワレ猫がキャンバスを開くオープニング" hidden>
+<div class="entrance" id="entrance" role="dialog" aria-modal="true" aria-label="猫の手がキャンバスを引っ掻き、紙を剥がすオープニング" hidden>
 <canvas id="entrance-canvas" aria-hidden="true"></canvas><span class="entrance-label" aria-hidden="true">Sabakan.</span>
 <button class="entrance-skip" id="entrance-skip" type="button">スキップ <svg class="line-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></button>
 </div>
@@ -26,7 +26,7 @@
 <a class="header-contact" href="https://github.com/sabakan0123">GitHub <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a>
 </header>
 <main><section aria-labelledby="hero-title" class="hero" id="home">
-<div aria-label="油彩の水庭。緑と青紫の筆触に睡蓮と白黒のハチワレ猫が溶け込む風景。短毛の猫がたたずみ、ポインターに合わせて奥行きが変化します。" class="garden" id="garden" role="img"><canvas aria-hidden="true" id="garden-canvas"></canvas></div>
+<div aria-label="モネの睡蓮の水面。タップ、またはEnterキーで波紋が広がります" class="garden water-surface" data-water-image="assets/monet-agapanthus.webp" id="garden" role="button" tabindex="0"><canvas aria-hidden="true" id="garden-canvas"></canvas></div>
 <div aria-hidden="true" class="hero-veil"></div>
 <div class="hero-copy">
 <p class="eyebrow">STUDENT / ENGINEERING PORTFOLIO</p>
@@ -36,7 +36,7 @@
 <a class="text-link hero-link" href="#profile">About me  <svg class="line-arrow down" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a>
 </div>
 
-<div class="hero-bottom"><a class="scroll-link" href="#profile"><svg class="line-arrow down" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg>  SCROLL</a></div>
+<div class="hero-bottom"><a class="scroll-link" href="#profile"><svg class="line-arrow down" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg>  SCROLL</a><span class="water-hint">水面にふれる <span aria-hidden="true">◌</span></span></div>
 </section><section class="intro-band section-shell" id="profile">
 <div class="section-kicker">01 / PROFILE</div>
 <div class="intro-grid">
@@ -59,7 +59,7 @@
 <span>Cybersecurity</span><span>CTI</span><span>OSINT</span><span>Web</span><span>Community</span><span>Space × Cyber</span>
 </div>
 </div>
-</section><figure class="painting-interlude" aria-label="睡蓮と光の反射、油彩のディテール"><img src="assets/watergarden-shorthair.webp" width="1536" height="1024" loading="lazy" alt="青紫と緑、乳白色の筆触が重なる水面"/></figure><section class="content-section section-shell" id="jobs">
+</section><figure class="painting-interlude"><div class="water-surface painting-water" data-water-image="assets/monet-water-lilies-1906.webp" role="button" tabindex="0" aria-label="モネの睡蓮、1906年。タップ、またはEnterキーで波紋が広がります"><img src="assets/monet-water-lilies-1906.webp" width="1600" height="1540" loading="lazy" alt="モネの睡蓮。緑の葉と淡い花、青紫の水面"/><canvas aria-hidden="true"></canvas></div><figcaption>Claude Monet <span>Water Lilies, 1906</span></figcaption></figure><section class="content-section section-shell" id="jobs">
 <div class="section-heading"><div class="section-kicker">02 / JOBS</div><h2>Jobs</h2></div>
 <div class="jobs-timeline">
 <article class="timeline-card">
@@ -123,6 +123,6 @@
 </div>
 <div class="publication-links"><a href="https://zenn.dev/sabakan1" rel="noreferrer" target="_blank">Zenn <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a href="https://qiita.com/Sabakan0123" rel="noreferrer" target="_blank">Qiita <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a href="https://github.com/sabakan0123" rel="noreferrer" target="_blank">GitHub <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div>
 </section></main>
-<footer class="footer section-shell"><a class="wordmark" href="#home">Sabakan.</a><p>© 2026 Sabakan</p><a href="#home">BACK TO TOP <svg class="line-arrow up" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></footer>
+<footer class="footer section-shell"><a class="wordmark" href="#home">Sabakan.</a><p>© 2026 Sabakan</p><a href="#home">BACK TO TOP <svg class="line-arrow up" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></footer><details class="artwork-credits section-shell"><summary>Paintings / Claude Monet</summary><p><a href="https://www.clevelandart.org/art/1960.81" target="_blank" rel="noreferrer">Water Lilies (Agapanthus), c. 1915–26 — Cleveland Museum of Art</a><br/><a href="https://www.artic.edu/artworks/16568" target="_blank" rel="noreferrer">Water Lilies, 1906 — Art Institute of Chicago</a></p></details>
 </body>
 </html>

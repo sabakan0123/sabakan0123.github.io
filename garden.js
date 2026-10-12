@@ -1,97 +1,107 @@
 'use strict';
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let paused = reduced.matches;
-  // No mode switches: the painting responds briefly to touch or pointer movement.
-  let activeUntil = 0;
-  const wake = () => { activeUntil = performance.now() + 4000; };
-  document.addEventListener('garden-entered', wake);
-  // A real, subdivided WebGL relief mesh: the painting bends in 3D, while
-  // a restrained fragment shader moves only the pond's reflected light.
-  const canvas = document.querySelector('#garden-canvas');
-  const garden = document.querySelector('#garden');
-  const gl = canvas.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
-  if (!gl) { return; }
-  const vertexSource = `
-    attribute vec2 aPosition;
-    varying vec2 vUv;
-    uniform vec2 uPointer;
-    void main() {
-      vUv = aPosition * .5 + .5;
-      float island = exp(-pow((aPosition.x-.28)*2.5,2.)-pow((aPosition.y+.1)*2.8,2.));
-      float foreground = pow(max(0.,-aPosition.y),2.);
-      float depth = island*.3 + foreground*.48;
-      vec3 p = vec3(aPosition*1.035, depth);
-      float yaw=uPointer.x*.045, pitch=uPointer.y*.024;
-      p.xz=mat2(cos(yaw),-sin(yaw),sin(yaw),cos(yaw))*p.xz;
-      p.yz=mat2(cos(pitch),-sin(pitch),sin(pitch),cos(pitch))*p.yz;
-      gl_Position=vec4(p.xy,0.,1.-p.z*.035);
-    }`;
-  const fragmentSource = `
+  const vertex = `attribute vec2 aPosition; varying vec2 vUv; void main(){vUv=aPosition*.5+.5;gl_Position=vec4(aPosition,0.,1.);}`;
+  const fragment = `
     precision mediump float;
     varying vec2 vUv;
     uniform sampler2D uImage;
-    uniform float uTime;
     uniform vec2 uCrop;
-    uniform vec3 uRipple;
-    void main() {
+    uniform float uAspect;
+    uniform float uTime;
+    uniform vec3 uRipples[4];
+    void main(){
+      vec2 normal=vec2(0.); float crest=0.;
+      for(int i=0;i<4;i++){
+        float age=uTime-uRipples[i].z;
+        vec2 delta=(vUv-uRipples[i].xy)*vec2(uAspect,1.);
+        float d=max(length(delta),.001);
+        float front=d-age*.27;
+        float envelope=exp(-pow(front/.085,2.))*exp(-age*.85)*step(0.,age)*step(age,3.8);
+        float phase=front*100.;
+        float wave=sin(phase)*envelope;
+        normal+=delta/d*cos(phase)*envelope*.19;
+        crest+=wave;
+      }
       vec2 uv=(vUv-.5)*uCrop+.5;
-      float water=1.-smoothstep(.40,.54,uv.y);
-      uv.x+=sin(uv.y*110.+uTime*.7)*.00125*water;
-      uv.y+=sin(uv.x*48.+uTime*.42)*.00075*water;
-      vec2 delta=vUv-uRipple.xy;
-      float dist=length(delta);
-      float age=uTime-uRipple.z;
-      float ripple=sin(dist*90.-age*7.)*exp(-dist*5.)*max(0.,1.-age/5.)*step(0.,age);
-      uv+=delta*ripple*.018*water;
-      gl_FragColor=texture2D(uImage,clamp(uv,.001,.999));
+      vec2 refraction=normal/vec2(uAspect,1.)*.06;
+      vec3 color=texture2D(uImage,clamp(uv+refraction,.001,.999)).rgb;
+      // A moving highlight and shadow on the refracted brushwork, like raised water.
+      float light=dot(normal,normalize(vec2(-.65,.8)));
+      color+=light*.46+max(0.,crest)*.027;
+      gl_FragColor=vec4(color,1.);
     }`;
-  function compile(type, src) {
-    const shader = gl.createShader(type); gl.shaderSource(shader, src); gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error('Garden shader unavailable');
-    return shader;
+  document.querySelectorAll('[data-water-image]').forEach(surface => {
+    const canvas = surface.querySelector('canvas');
+    const gl = canvas.getContext('webgl', {alpha:false,antialias:false,powerPreference:'low-power'});
+    if (!gl) return;
+    function shader(type, source) {
+      const s=gl.createShader(type); gl.shaderSource(s,source); gl.compileShader(s);
+      if (!gl.getShaderParameter(s,gl.COMPILE_STATUS)) throw new Error('Water shader unavailable');
+      return s;
+    }
+    let program;
+    try {
+      program=gl.createProgram(); gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex)); gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment)); gl.linkProgram(program);
+      if(!gl.getProgramParameter(program,gl.LINK_STATUS))return;
+    } catch (_) {return;}
+    gl.useProgram(program);
+    const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const position=gl.getAttribLocation(program,'aPosition'); gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+    const uTime=gl.getUniformLocation(program,'uTime'), uCrop=gl.getUniformLocation(program,'uCrop'), uAspect=gl.getUniformLocation(program,'uAspect'), uRipples=gl.getUniformLocation(program,'uRipples[0]');
+    const texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    const image=new Image(), ripples=new Float32Array([.5,.5,-100,.5,.5,-100,.5,.5,-100,.5,.5,-100]);
+    let ready=false, lost=false, visible=true, frameId=0, until=0, next=0;
+    function render(now) {
+      frameId=0;
+      if(!ready||lost||!visible||document.hidden)return;
+      gl.uniform1f(uTime,now/1000); gl.uniform3fv(uRipples,ripples); gl.drawArrays(gl.TRIANGLES,0,6);
+      if(now<until&&!reduced.matches)frameId=requestAnimationFrame(render);
+    }
+    function request(){if(!frameId)frameId=requestAnimationFrame(render);}
+    function resize(){
+      const r=surface.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,1.5);
+      canvas.width=Math.max(1,Math.round(r.width*dpr)); canvas.height=Math.max(1,Math.round(r.height*dpr)); gl.viewport(0,0,canvas.width,canvas.height);
+      const ratio=r.width/r.height, imageRatio=image.naturalWidth/image.naturalHeight||2.15;
+      gl.uniform2f(uCrop,Math.min(1,ratio/imageRatio),Math.min(1,imageRatio/ratio)); gl.uniform1f(uAspect,ratio);request();
+    }
+    new ResizeObserver(resize).observe(surface);
+    new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible)request();}).observe(surface);
+    image.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image);ready=true;resize();surface.classList.add('ready');};
+    image.src=surface.dataset.waterImage;
+    function ripple(x,y){
+      if(reduced.matches||!ready||lost)return;
+      const now=performance.now(); ripples.set([x,y,now/1000],next*3); next=(next+1)%4; until=now+4000;
+      surface.dataset.rippleCount=String(Number(surface.dataset.rippleCount||0)+1); request();
+    }
+    const target=surface.closest('.hero')||surface;
+    target.addEventListener('pointerdown',event=>{
+      const r=surface.getBoundingClientRect();
+      if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)return;
+      ripple((event.clientX-r.left)/r.width,1-(event.clientY-r.top)/r.height);
+    },{passive:true});
+    surface.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();ripple(.5,.5);}});
+    reduced.addEventListener('change',()=>{if(reduced.matches){for(let i=0;i<4;i++)ripples[i*3+2]=-100;until=0;request();}});
+    canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelAnimationFrame(frameId);surface.classList.remove('ready');});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)request();});
+  });
+
+  // Prepare the title before the paper peels, so it never flashes and disappears.
+  if(!reduced.matches && 'IntersectionObserver' in window && !document.querySelector('#entrance').hidden){
+    document.querySelectorAll('.hero-copy > *').forEach(node=>node.classList.add('reveal-item','reveal-pending'));
   }
-  let program;
-  try {
-    program=gl.createProgram(); gl.attachShader(program,compile(gl.VERTEX_SHADER,vertexSource)); gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragmentSource)); gl.linkProgram(program);
-    if (!gl.getProgramParameter(program,gl.LINK_STATUS)) throw new Error('Garden program unavailable');
-  } catch (_) {  return; }
-  gl.useProgram(program);
-  const points=[]; const nx=64, ny=48;
-  for(let y=0;y<ny;y++) for(let x=0;x<nx;x++) {
-    const x0=x/nx*2-1, x1=(x+1)/nx*2-1, y0=y/ny*2-1, y1=(y+1)/ny*2-1;
-    points.push(x0,y0,x1,y0,x0,y1,x0,y1,x1,y0,x1,y1);
+  // Text stays readable without JS, reduced motion, or IntersectionObserver.
+  function revealText(){
+    if(reduced.matches||!('IntersectionObserver' in window))return;
+    const nodes=[...document.querySelectorAll('.hero-copy > *, .section-kicker, .intro-grid > *, .section-heading h2, .activity-card, .timeline-card, .project-item, .article-card, .talk-row, .interest-layout')];
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.remove('reveal-pending');entry.target.classList.add('revealed');observer.unobserve(entry.target);}
+    }),{threshold:.06});
+    nodes.forEach((node,i)=>{node.classList.add('reveal-item','reveal-pending');node.style.setProperty('--reveal-delay',`${i%3*75}ms`);observer.observe(node);});
+    reduced.addEventListener('change',event=>{if(event.matches){nodes.forEach(node=>node.classList.remove('reveal-pending'));observer.disconnect();}});
   }
-  const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(points),gl.STATIC_DRAW);
-  const pos=gl.getAttribLocation(program,'aPosition'); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
-  const uTime=gl.getUniformLocation(program,'uTime'), uPointer=gl.getUniformLocation(program,'uPointer'), uCrop=gl.getUniformLocation(program,'uCrop'), uRipple=gl.getUniformLocation(program,'uRipple');
-  gl.uniform3f(uRipple,.6,.2,-100);
-  const texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-  const img=new Image(); let ready=false, inView=true, lost=false, t=0, last=0, px=0,py=0,tx=0,ty=0,dirty=true;
-  reduced.addEventListener('change', () => { paused = reduced.matches; dirty = true; });
-  function resize(){
-    const rect=garden.getBoundingClientRect(); const dpr=Math.min(devicePixelRatio || 1,1.5);
-    canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr); gl.viewport(0,0,canvas.width,canvas.height);
-    const ratio=rect.width/rect.height, imageRatio=1.5;
-    gl.uniform2f(uCrop,Math.min(1,ratio/imageRatio),Math.min(1,imageRatio/ratio)); dirty=true;
-  }
-  new ResizeObserver(resize).observe(garden);
-  new IntersectionObserver(([entry]) => {inView=entry.isIntersecting;dirty=true;},{threshold:0}).observe(garden);
-  img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);ready=true;resize();garden.classList.add('ready');};
-  img.onerror=()=>{};
-  img.src='assets/watergarden-shorthair.webp';
-  document.querySelector('.hero').addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;wake();const r=garden.getBoundingClientRect();tx=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));ty=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));});
-  document.querySelector('.hero').addEventListener('pointerleave',()=>{tx=ty=0;});
-  function ripple(x=.62,y=.22){if(paused)return;wake();gl.uniform3f(uRipple,x,y,t);dirty=true;}
-  garden.addEventListener('pointerdown',e=>{const r=garden.getBoundingClientRect();ripple((e.clientX-r.left)/r.width,1-(e.clientY-r.top)/r.height);});
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;garden.classList.remove('ready');});
-  function frame(now){
-    requestAnimationFrame(frame);
-    const dt=Math.min((now-last)/1000,.05);last=now;
-    if(!ready||lost||!inView||document.hidden)return;
-    if(!paused && now < activeUntil){t+=dt;px+=(tx-px)*.035;py+=(ty-py)*.035;dirty=true;}
-    if(!dirty)return;
-    gl.uniform1f(uTime,t);gl.uniform2f(uPointer,px,py);gl.drawArrays(gl.TRIANGLES,0,points.length/2);dirty=false;
-  }
-  requestAnimationFrame(frame);
+  if(document.querySelector('#entrance').hidden)revealText();
+  else document.addEventListener('garden-entered',revealText,{once:true});
 })();
