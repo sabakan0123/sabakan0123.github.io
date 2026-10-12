@@ -46,7 +46,6 @@
     for(let i=0;i<count;i++){
       const side=step++%2,clientY=height*(delta>0?.76:.28)+i*35;
       marks.push({side,y:window.scrollY+clientY,angle:(delta>0?Math.PI:0)+(side?.15:-.15),born:performance.now()});
-      if(step%3===0)document.dispatchEvent(new CustomEvent('water-touch',{detail:{x:width<760?width-16:width*.033,y:clientY}}));
     }
     marks=marks.slice(-28);canvas.dataset.steps=String(step);request();
   }

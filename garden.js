@@ -9,9 +9,6 @@
     uniform vec2 uCrop;
     uniform float uAspect;
     uniform float uTime;
-    uniform float uOverlay;
-    uniform vec2 uViewport;
-    uniform float uScroll;
     uniform vec3 uRipples[4];
     void main(){
       vec2 normal=vec2(0.); float crest=0.;
@@ -20,8 +17,8 @@
         vec2 delta=(vUv-uRipples[i].xy)*vec2(uAspect,1.);
         float d=max(length(delta),.001);
         float front=d-age*.27;
-        float envelope=exp(-pow(front/mix(.085,.04,uOverlay),2.))*exp(-age*.85)*step(0.,age)*step(age,3.8);
-        float phase=front*mix(100.,145.,uOverlay);
+        float envelope=exp(-pow(front/.085,2.))*exp(-age*.85)*step(0.,age)*step(age,3.8);
+        float phase=front*100.;
         float wave=sin(phase)*envelope;
         normal+=delta/d*cos(phase)*envelope*.19;
         crest+=wave;
@@ -32,20 +29,11 @@
       // A moving highlight and shadow on the refracted brushwork, like raised water.
       float light=dot(normal,normalize(vec2(-.65,.8)));
       color+=light*.46+max(0.,crest)*.027;
-      if(uOverlay>.5){
-        // A clear water film: specular light, a shaded rim, and refracted linen grain.
-        vec2 linenUv=fract(vec2(vUv.x*uViewport.x,(1.-vUv.y)*uViewport.y+uScroll)/600.);
-        vec3 linen=texture2D(uImage,fract(linenUv+refraction*.9)).rgb;
-        float shine=dot(normal,normalize(vec2(-.65,.8)));
-        vec3 film=mix(vec3(.30,.39,.35),vec3(1.,1.,.97),step(0.,shine));
-        film=mix(film,linen,.13);
-        float alpha=clamp(abs(shine)*1.15+abs(crest)*.01,0.,.17);
-        gl_FragColor=vec4(film,alpha);
-      }else gl_FragColor=vec4(color,1.);
+      gl_FragColor=vec4(color,1.);
     }`;
   document.querySelectorAll('[data-water-image]').forEach(surface => {
-    const canvas = surface.querySelector('canvas'), overlay = surface.id === 'water-film';
-    const gl = canvas.getContext('webgl', {alpha:overlay,premultipliedAlpha:false,antialias:false,powerPreference:'low-power'});
+    const canvas = surface.querySelector('canvas');
+    const gl = canvas.getContext('webgl', {alpha:false,premultipliedAlpha:false,antialias:false,powerPreference:'low-power'});
     if (!gl) return;
     function shader(type, source) {
       const s=gl.createShader(type); gl.shaderSource(s,source); gl.compileShader(s);
@@ -61,8 +49,6 @@
     const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
     const position=gl.getAttribLocation(program,'aPosition'); gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
     const uTime=gl.getUniformLocation(program,'uTime'), uCrop=gl.getUniformLocation(program,'uCrop'), uAspect=gl.getUniformLocation(program,'uAspect'), uRipples=gl.getUniformLocation(program,'uRipples[0]');
-    const uOverlay=gl.getUniformLocation(program,'uOverlay'),uViewport=gl.getUniformLocation(program,'uViewport'),uScroll=gl.getUniformLocation(program,'uScroll');
-    gl.uniform1f(uOverlay,overlay?1:0);
     const texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
@@ -71,7 +57,7 @@
     function render(now) {
       frameId=0;
       if(!ready||lost||!visible||document.hidden)return;
-      gl.uniform1f(uScroll,scrollY); gl.uniform1f(uTime,now/1000); gl.uniform3fv(uRipples,ripples); gl.drawArrays(gl.TRIANGLES,0,6); surface.classList.add('ready');
+      gl.uniform1f(uTime,now/1000); gl.uniform3fv(uRipples,ripples); gl.drawArrays(gl.TRIANGLES,0,6); surface.classList.add('ready');
       if(now<until&&!reduced.matches)frameId=requestAnimationFrame(render);
     }
     function request(){if(!frameId)frameId=requestAnimationFrame(render);}
@@ -79,7 +65,6 @@
       const r=surface.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,1.5);
       if(!r.width||!r.height)return;
       canvas.width=Math.max(1,Math.round(r.width*dpr)); canvas.height=Math.max(1,Math.round(r.height*dpr)); gl.viewport(0,0,canvas.width,canvas.height);
-      gl.uniform2f(uViewport,r.width,r.height);
       const ratio=r.width/r.height, imageRatio=image.naturalWidth/image.naturalHeight||2.15;
       gl.uniform2f(uCrop,Math.min(1,ratio/imageRatio),Math.min(1,imageRatio/ratio)); gl.uniform1f(uAspect,ratio);request();
     }
@@ -92,17 +77,13 @@
       const now=performance.now(); ripples.set([x,y,now/1000],next*3); next=(next+1)%4; until=now+4000;
       surface.dataset.rippleCount=String(Number(surface.dataset.rippleCount||0)+1); request();
     }
-    const target=overlay?document:(surface.closest('.hero')||surface);
+    const target=surface.closest('.hero')||surface;
     target.addEventListener('pointerdown',event=>{
       if(!document.querySelector('#entrance').hidden)return;
       const r=surface.getBoundingClientRect();
       if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)return;
       ripple((event.clientX-r.left)/r.width,1-(event.clientY-r.top)/r.height);
     },{passive:true});
-    if(overlay){
-      document.addEventListener('water-touch',event=>ripple(event.detail.x/innerWidth,1-event.detail.y/innerHeight));
-      document.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&event.target.matches('a,button')){const r=event.target.getBoundingClientRect();ripple((r.left+r.width/2)/innerWidth,1-(r.top+r.height/2)/innerHeight);}});
-    }
     surface.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();ripple(.5,.5);}});
     reduced.addEventListener('change',()=>{if(reduced.matches){for(let i=0;i<4;i++)ripples[i*3+2]=-100;until=0;request();}});
     canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelAnimationFrame(frameId);surface.classList.remove('ready');});

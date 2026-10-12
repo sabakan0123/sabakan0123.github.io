@@ -42,9 +42,6 @@ body.edition-oil::after{display:none}
 #talks .section-heading h2::after{width:220px;height:64px;transform:rotate(-3deg)}
 #projects .section-heading h2::after{width:180px;transform:rotate(6deg)}
 #information .section-heading h2::after{width:145px;transform:rotate(-6deg)}
-#water-film{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:hidden}
-#water-film canvas{display:block;width:100%;height:100%;opacity:0}
-#water-film.ready canvas{opacity:1}
 #paw-trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:12}
 /* One brush pass over a complete shaped text run; never slice individual letters. */
 .ink-pending{clip-path:inset(-.25em 100% -.25em -.18em)}
@@ -60,4 +57,4 @@ body.edition-oil::after{display:none}
   .edition-oil .hero-copy{padding-left:8%}
   .edition-oil h1{font-size:clamp(68px,20vw,83px)}
 }
-@media(prefers-reduced-motion:reduce){.ink-pending{clip-path:none}.ink-drawing{animation:none}#water-film,#paw-trail{display:none}}
+@media(prefers-reduced-motion:reduce){.ink-pending{clip-path:none}.ink-drawing{animation:none}#paw-trail{display:none}}
