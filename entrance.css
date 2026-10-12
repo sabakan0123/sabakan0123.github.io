@@ -1,0 +1,23 @@
+/* One brief entrance: white linen, a painted cat, then the garden. */
+.entrance[hidden]{display:none}
+.entering,.entering body{overflow:hidden}
+.entrance{position:fixed;inset:0;z-index:200;height:100dvh;isolation:isolate}
+.entrance canvas{width:100%;height:100%;display:block}
+.entrance-label{position:absolute;top:36px;left:4.2%;font-family:var(--serif);font-size:26px;letter-spacing:-.04em;color:#383e36;transition:opacity .3s}
+.entrance-skip{position:absolute;right:4.2%;bottom:34px;min-height:44px;padding:8px 3px;display:flex;gap:20px;align-items:center;font-size:11px;letter-spacing:.07em;color:#555f55}
+.entrance-skip:hover{color:#151d15}
+.entrance.tearing .entrance-label{opacity:0}
+.line-arrow{display:inline-block;width:19px;height:19px;vertical-align:middle;flex-shrink:0;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-left:.35em}
+.line-arrow.down{transform:rotate(90deg)}
+.line-arrow.up{transform:rotate(-90deg)}
+.line-arrow.out{transform:rotate(-45deg)}
+a .line-arrow{transition:translate .2s}
+a:hover .line-arrow.out{translate:2px -2px}
+a:hover .line-arrow.down{translate:0 3px}
+.edition-oil .garden{background-image:url('assets/watergarden-shorthair.webp')}
+.edition-oil .garden-tools{display:none}
+.painting-interlude{height:240px;margin:12px 7.1% 55px;position:relative;overflow:hidden;clip-path:polygon(0 5%,19% 2%,40% 4%,63% 0,81% 3%,100% 1%,99% 91%,83% 97%,60% 94%,38% 100%,16% 96%,1% 99%)}
+.painting-interlude img{width:100%;height:100%;object-fit:cover;object-position:50% 78%;filter:saturate(.7)}
+.painting-interlude::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 45px 10px #f5f4ee60;pointer-events:none}
+@media(max-width:760px){.entrance-label{top:25px;left:7%;font-size:24px}.entrance-skip{right:7%;bottom:28px}.painting-interlude{height:160px;margin:0 7% 30px}.painting-interlude img{object-position:25% 77%}}
+@media(prefers-reduced-motion:reduce){.entrance{display:none}.entering,.entering body{overflow:auto}}

@@ -2,29 +2,16 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = reduced.matches;
-  const motion = document.querySelector('#motion-toggle');
-  const updateMotion = () => {
-    document.body.classList.toggle('paused', paused);
-    motion.setAttribute('aria-pressed', String(paused));
-    motion.setAttribute('aria-label', paused ? 'アニメーションを再開' : 'アニメーションを一時停止');
-    motion.innerHTML = paused ? 'Play <span aria-hidden="true">▷</span>' : 'Pause <span aria-hidden="true">Ⅱ</span>';
-  };
-  motion.addEventListener('click', () => { paused = !paused; updateMotion(); });
-  reduced.addEventListener('change', () => { paused = reduced.matches; updateMotion(); });
-  updateMotion();
-  const timeToggle = document.querySelector('#time-toggle');
-  timeToggle.addEventListener('click', () => {
-    const night = document.body.classList.toggle('night');
-    timeToggle.setAttribute('aria-pressed', String(night));
-    timeToggle.innerHTML = night ? '朝の庭へ <span aria-hidden="true">◑</span>' : '夜の庭へ <span aria-hidden="true">◐</span>';
-  });
-
+  // No mode switches: the painting responds briefly to touch or pointer movement.
+  let activeUntil = 0;
+  const wake = () => { activeUntil = performance.now() + 4000; };
+  document.addEventListener('garden-entered', wake);
   // A real, subdivided WebGL relief mesh: the painting bends in 3D, while
   // a restrained fragment shader moves only the pond's reflected light.
   const canvas = document.querySelector('#garden-canvas');
   const garden = document.querySelector('#garden');
   const gl = canvas.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
-  if (!gl) { document.querySelector('#ripple').hidden = true; return; }
+  if (!gl) { return; }
   const vertexSource = `
     attribute vec2 aPosition;
     varying vec2 vUv;
@@ -68,7 +55,7 @@
   try {
     program=gl.createProgram(); gl.attachShader(program,compile(gl.VERTEX_SHADER,vertexSource)); gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragmentSource)); gl.linkProgram(program);
     if (!gl.getProgramParameter(program,gl.LINK_STATUS)) throw new Error('Garden program unavailable');
-  } catch (_) { document.querySelector('#ripple').hidden=true; return; }
+  } catch (_) {  return; }
   gl.useProgram(program);
   const points=[]; const nx=64, ny=48;
   for(let y=0;y<ny;y++) for(let x=0;x<nx;x++) {
@@ -81,6 +68,7 @@
   gl.uniform3f(uRipple,.6,.2,-100);
   const texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
   const img=new Image(); let ready=false, inView=true, lost=false, t=0, last=0, px=0,py=0,tx=0,ty=0,dirty=true;
+  reduced.addEventListener('change', () => { paused = reduced.matches; dirty = true; });
   function resize(){
     const rect=garden.getBoundingClientRect(); const dpr=Math.min(devicePixelRatio || 1,1.5);
     canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr); gl.viewport(0,0,canvas.width,canvas.height);
@@ -90,19 +78,18 @@
   new ResizeObserver(resize).observe(garden);
   new IntersectionObserver(([entry]) => {inView=entry.isIntersecting;dirty=true;},{threshold:0}).observe(garden);
   img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);ready=true;resize();garden.classList.add('ready');};
-  img.onerror=()=>{document.querySelector('#ripple').hidden=true;};
-  img.src='assets/watergarden-oil.webp';
-  document.querySelector('.hero').addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=garden.getBoundingClientRect();tx=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));ty=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));});
+  img.onerror=()=>{};
+  img.src='assets/watergarden-shorthair.webp';
+  document.querySelector('.hero').addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;wake();const r=garden.getBoundingClientRect();tx=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));ty=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));});
   document.querySelector('.hero').addEventListener('pointerleave',()=>{tx=ty=0;});
-  function ripple(x=.62,y=.22){if(paused)return;gl.uniform3f(uRipple,x,y,t);dirty=true;}
+  function ripple(x=.62,y=.22){if(paused)return;wake();gl.uniform3f(uRipple,x,y,t);dirty=true;}
   garden.addEventListener('pointerdown',e=>{const r=garden.getBoundingClientRect();ripple((e.clientX-r.left)/r.width,1-(e.clientY-r.top)/r.height);});
-  document.querySelector('#ripple').addEventListener('click',()=>ripple());
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;garden.classList.remove('ready');document.querySelector('#ripple').hidden=true;});
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;garden.classList.remove('ready');});
   function frame(now){
     requestAnimationFrame(frame);
     const dt=Math.min((now-last)/1000,.05);last=now;
     if(!ready||lost||!inView||document.hidden)return;
-    if(!paused){t+=dt;px+=(tx-px)*.035;py+=(ty-py)*.035;dirty=true;}
+    if(!paused && now < activeUntil){t+=dt;px+=(tx-px)*.035;py+=(ty-py)*.035;dirty=true;}
     if(!dirty)return;
     gl.uniform1f(uTime,t);gl.uniform2f(uPointer,px,py);gl.drawArrays(gl.TRIANGLES,0,points.length/2);dirty=false;
   }
