@@ -1,145 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sabakanのエンジニアリング・ポートフォリオ" />
-  <title>Sabakan / Portfolio</title>
-  <link rel="icon" type="image/png" href="assets/hatoware-cat.png" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Sabakanのポートフォリオ。プロフィール、経歴、活動、制作物、記事。" name="description"/>
+<meta content="#f5f4ee" name="theme-color"/>
+<title>Sabakan / Portfolio</title>
+<link href="assets/cat.svg" rel="icon" type="image/svg+xml"/>
+<link href="styles.css" rel="stylesheet"/><link href="oil-edition.css" rel="stylesheet"/>
+<link as="image" href="assets/watergarden-oil.webp" rel="preload"/>
+<script defer="" src="garden.js"></script>
 </head>
-<body>
-  <a class="skip-link" href="#top">本文へ移動</a>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Sabakan home">
-      <img class="brand-mark" src="assets/hatoware-cat.png" alt="" />
-      <span>Sabakan</span>
-    </a>
-    <nav class="site-nav" aria-label="メインナビゲーション">
-      <a href="#about">About</a>
-      <a href="#jobs">Jobs</a>
-      <a href="#activities">Activities</a>
-      <a href="#talks">Talks</a>
-      <a href="#projects">Projects</a>
-      <a href="#information">Information</a>
-    </nav>
-    <a class="header-link" href="https://x.com/" target="_blank" rel="noreferrer">X ↗</a>
-  </header>
+<body class="edition-oil">
+<a class="skip" href="#profile">本文へ移動</a>
+<header class="header">
+<a aria-label="Sabakan ホーム" class="wordmark" href="#home">Sabakan<span class="brand-dot">.</span></a>
+<nav aria-label="メインナビゲーション"><a href="#profile">About</a><a href="#jobs">Jobs</a><a href="#activities">Activities</a><a href="#talks">Talks</a><a href="#projects">Projects</a><a href="#information">Information</a></nav>
+<a class="header-contact" href="https://github.com/sabakan0123">GitHub ↗</a>
+</header>
+<main><section aria-labelledby="hero-title" class="hero" id="home">
+<div aria-label="油彩の水庭。緑と青紫の筆触に睡蓮と白黒のハチワレ猫が溶け込む風景。ポインターに合わせて奥行きが変化します。" class="garden" id="garden" role="img"><canvas aria-hidden="true" id="garden-canvas"></canvas></div>
+<div aria-hidden="true" class="hero-veil"></div>
+<div class="hero-copy">
+<p class="eyebrow">STUDENT / ENGINEERING PORTFOLIO</p>
+<h1 id="hero-title">Sabakan<br/><em>Portfolio.</em></h1>
 
-  <main id="top" tabindex="-1">
-    <section class="hero section-shell" id="about">
-      <div class="hero-copy">
-        <p class="eyebrow">STUDENT / ENGINEERING PORTFOLIO</p>
-        <h1>Sabakan<br /><em>Portfolio.</em></h1>
-      </div>
-      <div class="hero-orbit" aria-label="はちわれ猫のアイコン">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="cat-token"><img src="assets/hatoware-cat.png" alt="Sabakanのはちわれ猫アイコン" /></div>
-      </div>
-    </section>
 
-    <section class="intro-band section-shell">
-      <div class="section-kicker">01 / PROFILE</div>
-      <div class="intro-grid">
-        <h2>Profile</h2>
-        <div class="profile-copy">
-          <dl class="profile-list">
-            <div><dt>名前</dt><dd>Sabakan</dd></div>
-            <div><dt>職業</dt><dd>学生</dd></div>
-            <div><dt>Languages</dt><dd>English / EF SET C1</dd></div>
-            <div><dt>趣味</dt><dd>映画/アニメ鑑賞・温泉巡り・旅行・読書</dd></div>
-            <div><dt>リンク</dt><dd><a href="https://x.com/" target="_blank" rel="noreferrer">X ↗</a></dd></div>
-          </dl>
-        </div>
-      </div>
-    </section>
+<a class="text-link hero-link" href="#profile">About me  ↓</a>
+</div>
 
-    <section class="interest-strip section-shell" aria-label="興味・関心">
-      <div class="section-kicker">NOW EXPLORING</div>
-      <div class="interest-layout">
-        <h2>興味のある<br /><em>キーワード</em></h2>
-        <div class="keyword-cloud">
-          <span>Cybersecurity</span><span>CTI</span><span>OSINT</span><span>Web</span><span>Community</span><span>Space × Cyber</span>
-        </div>
-      </div>
-    </section>
+<div class="hero-bottom"><a class="scroll-link" href="#profile">↓  SCROLL</a><div class="garden-tools"><button id="ripple" type="button">水面にふれる <span aria-hidden="true">◎</span></button><button aria-pressed="false" id="time-toggle" type="button">夜の庭へ <span aria-hidden="true">◐</span></button><button aria-label="アニメーションを一時停止" aria-pressed="false" id="motion-toggle" type="button">Pause <span aria-hidden="true">Ⅱ</span></button></div></div>
+</section><section class="intro-band section-shell" id="profile">
+<div class="section-kicker">01 / PROFILE</div>
+<div class="intro-grid">
+<h2>Profile</h2>
+<div class="profile-copy">
+<dl class="profile-list">
+<div><dt>名前</dt><dd>Sabakan</dd></div>
+<div><dt>職業</dt><dd>学生</dd></div>
+<div><dt>Languages</dt><dd>English / EF SET C1</dd></div>
+<div><dt>趣味</dt><dd>ビリヤード・読書・旅行・温泉・セキュリティ</dd></div>
 
-    <section class="content-section section-shell" id="jobs">
-        <div class="section-heading"><div class="section-kicker">02 / JOBS</div><h2>Jobs</h2></div>
-      <div class="jobs-timeline">
-        <article class="timeline-card">
-          <div class="timeline-date"><time datetime="2025-11">2025/11</time> —<br /><time datetime="2028-03">2028/03</time>（予定）</div>
-          <div class="timeline-marker" aria-hidden="true"></div>
-          <div class="timeline-content"><h3>学生</h3></div>
-          <span class="status-pill">現在</span>
-        </article>
-        <article class="timeline-card muted-card">
-          <div class="timeline-date"><time datetime="2025-09">2025/09</time> —<br /><time datetime="2026-05">2026/05</time></div>
-          <div class="timeline-marker" aria-hidden="true"></div>
-          <div class="timeline-content"><h3>ソフトウェアエンジニア</h3><p>業務委託</p></div>
+</dl>
+</div>
+</div>
+</section><section aria-label="興味・関心" class="interest-strip section-shell">
+<div class="section-kicker">NOW EXPLORING</div>
+<div class="interest-layout">
+<h2>興味のある<br/><em>キーワード</em></h2>
+<div class="keyword-cloud">
+<span>Cybersecurity</span><span>CTI</span><span>OSINT</span><span>Web</span><span>Community</span><span>Space × Cyber</span>
+</div>
+</div>
+</section><section class="content-section section-shell" id="jobs">
+<div class="section-heading"><div class="section-kicker">02 / JOBS</div><h2>Jobs</h2></div>
+<div class="jobs-timeline">
+<article class="timeline-card">
+<div class="timeline-date"><time datetime="2025-11">2025/11</time> —<br/><time datetime="2028-03">2028/03</time>（予定）</div>
+<div aria-hidden="true" class="timeline-marker"></div>
+<div class="timeline-content"><h3>学生</h3></div>
+<span class="status-pill">現在</span>
+</article>
+<article class="timeline-card muted-card">
+<div class="timeline-date"><time datetime="2025-09">2025/09</time> —<br/><time datetime="2026-05">2026/05</time></div>
+<div aria-hidden="true" class="timeline-marker"></div>
+<div class="timeline-content"><h3>ソフトウェアエンジニア</h3><p>業務委託</p></div>
+</article>
+</div>
+</section><section class="content-section tinted-section" id="activities">
+<div class="section-shell">
+<div class="section-heading"><div class="section-kicker">03 / ACTIVITIES</div><h2>Activities</h2></div>
+<div class="activity-grid">
+<article class="activity-card"><span class="card-index">01</span><h3>Community</h3><h4>WOLF VILLAGE</h4><p>創立・運営</p><div class="community-links"><a class="card-link" href="https://wolfvillage.org/" rel="noreferrer" target="_blank">Website ↗</a><a class="card-link" href="https://wolfvillage.connpass.com/" rel="noreferrer" target="_blank">connpass ↗</a><a aria-label="WOLF VILLAGEのX（@WOLFVILLAGE_630）" class="card-link" href="https://x.com/WOLFVILLAGE_630" rel="noreferrer" target="_blank">X ↗</a></div></article>
+<article class="activity-card competition-card"><span class="card-index">02</span><h3>CTF / Competitions</h3>
+<ul class="competition-list">
+<li><h4>JOAI 2026</h4><p>金メダル / オープン枠3位</p><a class="card-link" href="https://zenn.dev/sabakan1/articles/ecd5c9ba823a91" rel="noreferrer" target="_blank">参加記 ↗</a></li>
+<li><h4>防衛省サイバーコンテスト 2026</h4><p>学生の部 21位 / 107名</p></li>
+<li><h4>Diver OSINT CTF</h4><p>参加</p></li>
+</ul>
+</article>
 
-        </article>
-      </div>
-    </section>
-
-    <section class="content-section tinted-section" id="activities">
-      <div class="section-shell">
-        <div class="section-heading"><div class="section-kicker">03 / ACTIVITIES</div><h2>Activities</h2></div>
-        <div class="activity-grid">
-          <article class="activity-card"><span class="card-index">01</span><h3>Community</h3><h4>WOLF VILLAGE</h4><p>創立・運営</p><div class="community-links"><a class="card-link" href="https://wolfvillage.org/" target="_blank" rel="noreferrer">Website ↗</a><a class="card-link" href="https://wolfvillage.connpass.com/" target="_blank" rel="noreferrer">connpass ↗</a><a class="card-link" href="https://x.com/WOLFVILLAGE_630" target="_blank" rel="noreferrer" aria-label="WOLF VILLAGEのX（@WOLFVILLAGE_630）">X ↗</a></div></article>
-          <article class="activity-card competition-card"><span class="card-index">02</span><h3>CTF / Competitions</h3>
-            <ul class="competition-list">
-              <li><h4>JOAI 2026</h4><p>金メダル / オープン枠3位</p><a class="card-link" href="https://zenn.dev/sabakan1/articles/ecd5c9ba823a91" target="_blank" rel="noreferrer">参加記 ↗</a></li>
-              <li><h4>防衛省サイバーコンテスト 2026</h4><p>学生の部 21位 / 107名</p></li>
-              <li><h4>Diver OSINT CTF</h4><p>参加</p></li>
-            </ul>
-          </article>
-          <article class="activity-card"><span class="card-index">03</span><h3>Events</h3><p>勉強会・Conference</p><span class="mock-label">記入予定</span></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="content-section section-shell" id="talks">
-      <div class="section-heading"><div class="section-kicker">04 / TALKS</div><h2>Talks</h2></div>
-      <div class="talk-row"><time class="talk-date" datetime="2026-09-04">2026/09/04</time><div><h3>WOLF VILLAGE NIGHT #1</h3><p>WOLF VILLAGE / 登壇</p></div></div>
-    </section>
-
-    <section class="content-section projects-section" id="projects">
-      <div class="section-shell">
-        <div class="section-heading"><div class="section-kicker">05 / PROJECTS</div><h2>Projects</h2></div>
-        <div class="project-list">
-          <article class="project-item">
-            <div class="project-number">01</div>
-            <div><p class="project-type">CLAUDE SKILLS</p><h3>claude-security-scan</h3><p>Claude Code向けセキュリティ診断スキル</p><div class="tag-list" aria-label="使用言語・記述形式"><span>Markdown</span><span>TypeScript（テスト）</span><span>Shell</span></div><div class="project-links"><a href="https://github.com/sabakan0123/claude-security-scan" target="_blank" rel="noreferrer">GitHub ↗</a></div></div>
-          </article>
-          <article class="project-item">
-            <div class="project-number">02</div>
-            <div><p class="project-type">CLAUDE SKILLS</p><h3>claude-security-skills</h3><p>セキュリティレビュー・スキャン用スキル集</p><div class="tag-list" aria-label="使用言語・記述形式"><span>Markdown</span><span>TypeScript（テスト）</span></div><div class="project-links"><a href="https://github.com/sabakan0123/claude-security-skills" target="_blank" rel="noreferrer">GitHub ↗</a></div></div>
-          </article>
-          <article class="project-item">
-            <div class="project-number">03</div>
-            <div><p class="project-type">OPEN SOURCE / TEAM DEVELOPMENT</p><h3>とりあーじアナウンサー</h3><p>依存パッケージと脆弱性情報の照合・LLMによる要約</p><div class="tag-list" aria-label="プロジェクトの使用言語・技術"><span>Go</span><span>TypeScript</span><span>Vue</span><span>CSS</span></div><div class="project-links"><a href="https://github.com/K3NLatte/vulns-news" target="_blank" rel="noreferrer">GitHub ↗</a></div></div>
-          </article>
-          <article class="project-item">
-            <div class="project-number">04</div>
-            <div><p class="project-type">WEB</p><h3>WOLF VILLAGE Website</h3><p>コミュニティ公式サイト制作</p><div class="tag-list" aria-label="使用言語"><span>PureScript</span><span>JavaScript</span><span>HTML</span><span>CSS</span></div><div class="project-links"><a href="https://wolfvillage.org/" target="_blank" rel="noreferrer">Website ↗</a></div></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="content-section section-shell" id="information">
-      <div class="section-heading"><div class="section-kicker">06 / INFORMATION</div><h2>Information</h2></div>
-      <div class="article-grid">
-        <a class="article-card" href="https://zenn.dev/sabakan1/articles/57ca07f4b277b4" target="_blank" rel="noreferrer"><div class="article-meta"><span>Zenn</span><span>93 likes</span></div><h3>【検出率100%】セキュリティ診断、Claude Codeに全部やらせる時代が来た</h3><div class="article-bottom"><time datetime="2026-05-01">2026/05/01</time><span aria-hidden="true">↗</span></div></a>
-        <a class="article-card" href="https://zenn.dev/sabakan1/articles/bd286802d6a91d" target="_blank" rel="noreferrer"><div class="article-meta"><span>Zenn</span><span>93 likes</span></div><h3>セキュリティ診断、AIに全部やらせたら月$0.5で回せるようになった話💰</h3><div class="article-bottom"><time datetime="2026-04-30">2026/04/30</time><span aria-hidden="true">↗</span></div></a>
-        <a class="article-card" href="https://qiita.com/Sabakan0123/items/8a937781391763ff1bb2" target="_blank" rel="noreferrer"><div class="article-meta"><span>Qiita</span><span>10 likes</span></div><h3>セキュリティを学ぶ学生、"孤高の狼"になってませんか? — 学生コミュニティを作りたい話</h3><div class="article-bottom"><time datetime="2026-05-14">2026/05/14</time><span aria-hidden="true">↗</span></div></a>
-      </div>
-      <div class="publication-links"><a href="https://zenn.dev/sabakan1" target="_blank" rel="noreferrer">Zenn ↗</a><a href="https://qiita.com/Sabakan0123" target="_blank" rel="noreferrer">Qiita ↗</a><a href="https://github.com/sabakan0123" target="_blank" rel="noreferrer">GitHub ↗</a></div>
-    </section>
-  </main>
-
-  <footer class="site-footer section-shell"><div><img class="brand-mark" src="assets/hatoware-cat.png" alt="" /> Sabakan</div><p>Student / Engineering / 2026</p><a href="#top">Back to top ↑</a></footer>
+</div>
+</div>
+</section><section class="content-section section-shell" id="talks">
+<div class="section-heading"><div class="section-kicker">04 / TALKS</div><h2>Talks</h2></div>
+<div class="talk-row"><time class="talk-date" datetime="2026-09-04">2026/09/04</time><div><h3>WOLF VILLAGE NIGHT #1</h3><p>WOLF VILLAGE / 登壇</p></div></div>
+</section><section class="content-section projects-section" id="projects">
+<div class="section-shell">
+<div class="section-heading"><div class="section-kicker">05 / PROJECTS</div><h2>Projects</h2></div>
+<div class="project-list">
+<article class="project-item">
+<div class="project-number">01</div>
+<div><p class="project-type">CLAUDE SKILLS</p><h3>claude-security-scan</h3><p>Claude Code向けセキュリティ診断スキル</p><div aria-label="使用言語・記述形式" class="tag-list"><span>Markdown</span><span>TypeScript（テスト）</span><span>Shell</span></div><div class="project-links"><a href="https://github.com/sabakan0123/claude-security-scan" rel="noreferrer" target="_blank">GitHub ↗</a></div></div>
+</article>
+<article class="project-item">
+<div class="project-number">02</div>
+<div><p class="project-type">CLAUDE SKILLS</p><h3>claude-security-skills</h3><p>セキュリティレビュー・スキャン用スキル集</p><div aria-label="使用言語・記述形式" class="tag-list"><span>Markdown</span><span>TypeScript（テスト）</span></div><div class="project-links"><a href="https://github.com/sabakan0123/claude-security-skills" rel="noreferrer" target="_blank">GitHub ↗</a></div></div>
+</article>
+<article class="project-item">
+<div class="project-number">03</div>
+<div><p class="project-type">OPEN SOURCE / TEAM DEVELOPMENT</p><h3>とりあーじアナウンサー</h3><p>依存パッケージと脆弱性情報の照合・LLMによる要約</p><div aria-label="プロジェクトの使用言語・技術" class="tag-list"><span>Go</span><span>TypeScript</span><span>Vue</span><span>CSS</span></div><div class="project-links"><a href="https://github.com/K3NLatte/vulns-news" rel="noreferrer" target="_blank">GitHub ↗</a></div></div>
+</article>
+<article class="project-item">
+<div class="project-number">04</div>
+<div><p class="project-type">WEB</p><h3>WOLF VILLAGE Website</h3><p>コミュニティ公式サイト制作</p><div aria-label="使用言語" class="tag-list"><span>PureScript</span><span>JavaScript</span><span>HTML</span><span>CSS</span></div><div class="project-links"><a href="https://wolfvillage.org/" rel="noreferrer" target="_blank">Website ↗</a></div></div>
+</article>
+</div>
+</div>
+</section><section class="content-section section-shell" id="information">
+<div class="section-heading"><div class="section-kicker">06 / INFORMATION</div><h2>Information</h2></div>
+<div class="article-grid">
+<a class="article-card" href="https://zenn.dev/sabakan1/articles/57ca07f4b277b4" rel="noreferrer" target="_blank"><div class="article-meta"><span>Zenn</span></div><h3>【検出率100%】セキュリティ診断、Claude Codeに全部やらせる時代が来た</h3><div class="article-bottom"><time datetime="2026-05-01">2026/05/01</time><span aria-hidden="true">↗</span></div></a>
+<a class="article-card" href="https://zenn.dev/sabakan1/articles/bd286802d6a91d" rel="noreferrer" target="_blank"><div class="article-meta"><span>Zenn</span></div><h3>セキュリティ診断、AIに全部やらせたら月$0.5で回せるようになった話💰</h3><div class="article-bottom"><time datetime="2026-04-30">2026/04/30</time><span aria-hidden="true">↗</span></div></a>
+<a class="article-card" href="https://qiita.com/Sabakan0123/items/8a937781391763ff1bb2" rel="noreferrer" target="_blank"><div class="article-meta"><span>Qiita</span></div><h3>セキュリティを学ぶ学生、"孤高の狼"になってませんか? — 学生コミュニティを作りたい話</h3><div class="article-bottom"><time datetime="2026-05-14">2026/05/14</time><span aria-hidden="true">↗</span></div></a>
+</div>
+<div class="publication-links"><a href="https://zenn.dev/sabakan1" rel="noreferrer" target="_blank">Zenn ↗</a><a href="https://qiita.com/Sabakan0123" rel="noreferrer" target="_blank">Qiita ↗</a><a href="https://github.com/sabakan0123" rel="noreferrer" target="_blank">GitHub ↗</a></div>
+</section></main>
+<footer class="footer section-shell"><a class="wordmark" href="#home">Sabakan.</a><p>© 2026 Sabakan</p><a href="#home">BACK TO TOP ↑</a></footer>
 </body>
 </html>
