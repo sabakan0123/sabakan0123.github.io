@@ -17,7 +17,7 @@ a:hover .line-arrow.down{translate:0 3px}
 .edition-oil .garden{background-image:url('assets/watergarden-shorthair.webp')}
 .edition-oil .garden-tools{display:none}
 .painting-interlude{height:240px;margin:12px 7.1% 55px;position:relative;overflow:hidden;clip-path:polygon(0 5%,19% 2%,40% 4%,63% 0,81% 3%,100% 1%,99% 91%,83% 97%,60% 94%,38% 100%,16% 96%,1% 99%)}
-.painting-interlude img{width:100%;height:100%;object-fit:cover;object-position:50% 78%;filter:saturate(.7)}
+.painting-interlude img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;filter:saturate(.7)}
 .painting-interlude::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 45px 10px #f5f4ee60;pointer-events:none}
-@media(max-width:760px){.entrance-label{top:25px;left:7%;font-size:24px}.entrance-skip{right:7%;bottom:28px}.painting-interlude{height:160px;margin:0 7% 30px}.painting-interlude img{object-position:25% 77%}}
+@media(max-width:760px){.entrance-label{top:25px;left:7%;font-size:24px}.entrance-skip{right:7%;bottom:28px}.painting-interlude{height:160px;margin:0 7% 30px}.painting-interlude img{object-position:25% 100%}}
 @media(prefers-reduced-motion:reduce){.entrance{display:none}.entering,.entering body{overflow:auto}}
