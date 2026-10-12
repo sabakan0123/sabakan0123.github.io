@@ -26,3 +26,14 @@ The hero uses the existing original `watergarden-shorthair.webp`: water lilies a
 ## Animation
 
 Arrival and positioning: 0–1.05 seconds, zero scratches. A left-to-right stroke follows, with four scratch endpoints computed from the rotated claw positions. The arm lifts away, then curled strips reveal the portfolio. Text is revealed glyph by glyph through a ragged brush mask; this is a painting effect rather than a simulation of the font's original handwriting stroke order. Reduced motion displays all text immediately and skips the entrance.
+
+
+## Continuous canvas revision — 2026-10-12
+
+Output: `assets/pond-pigment.webp` (1200 × 404), built-in image_gen, alpha preserved during Sharp WebP conversion.
+
+Prompt:
+
+> Website fine-art decorative asset, transparent background. One broad horizontal cluster of abstract oil paint brush strokes, aspect ratio about 3:1. Tactile impasto paint smeared by a palette knife across invisible linen canvas. Elegant muted sage green, deep blue-green, dusty lavender, ivory with a few buttery pale yellow flecks, colors inspired by a water-lily pond. Three or four overlapping confident strokes with rough dry-brush broken edges, ridged glossy raised pigment catching soft raking light, tiny separate paint flecks near the edges. Plenty of transparent negative space, no rectangular backdrop, no landscape, no water lilies themselves, no objects, no words, no lettering, no signature. This artwork will be a small painterly flourish in the generous margin beside readable portfolio text, not a full illustration. Preserve fine brush-groove details and translucent broken edges. Actual alpha transparency.
+
+This revision removes the actual Monet interlude and the SCROLL cue. Linen is used across the hero, content, and footer. The name is rendered as native, unsplit text; other text reveals use a complete text block to preserve shaping and kerning. The new water film covers the entire viewport. Procedural dry-paint paw prints follow scrolling in the margin and fade after 13.5 seconds. All motion respects reduced-motion preferences.

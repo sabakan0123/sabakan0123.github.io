@@ -11,7 +11,7 @@
 
 ## Claude Monet — Water Lilies, 1906
 
-- Used in the separate painting below Profile: `assets/monet-water-lilies-1906.webp` (1600 × 1540).
+- Archived asset, no longer displayed in the portfolio: `assets/monet-water-lilies-1906.webp` (1600 × 1540).
 - Art Institute of Chicago, accession 1933.1157, artwork 16568.
 - Official record: https://www.artic.edu/artworks/16568
 - Downloaded reproduction: https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1933.1157_-_Art_Institute_of_Chicago.jpg
