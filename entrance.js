@@ -2,8 +2,8 @@
 (() => {
   const entrance = document.querySelector('#entrance'), canvas = document.querySelector('#entrance-canvas'), skip = document.querySelector('#entrance-skip');
   const ctx = canvas.getContext('2d'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const page = [...document.querySelectorAll('body > header, body > main, body > footer, body > .skip, body > .artwork-credits')];
-  const paw = new Image(), painting = new Image();
+  const page = [...document.querySelectorAll('body > header, body > main, body > footer, body > .skip')];
+  const paw = new Image(), painting = new Image(), linen = new Image();
   let done = false, running = false, raf = 0, start = 0, w = 0, h = 0, keyboard = false, paper;
   const clamp = n => Math.max(0, Math.min(1, n));
   const smooth = n => { n = clamp(n); return n * n * (3 - 2 * n); };
@@ -42,13 +42,23 @@
   }
   function base() {
     ctx.clearRect(0, 0, w, h); ctx.fillStyle = paper; ctx.fillRect(0, 0, w, h);
+    if (linen.complete && linen.naturalWidth) {
+      ctx.save(); ctx.globalAlpha = .48;
+      for (let y = 0; y < h; y += 620) for (let x = 0; x < w; x += 620) ctx.drawImage(linen, x, y, 620, 620);
+      ctx.restore();
+    }
     const light = ctx.createRadialGradient(w * .32, h * .22, 0, w * .5, h * .5, Math.hypot(w, h));
     light.addColorStop(0, '#ffffff45'); light.addColorStop(1, '#b9b19d24'); ctx.fillStyle = light; ctx.fillRect(0, 0, w, h);
   }
   const pawWidth = () => Math.min(1050, Math.max(520, w * .83));
-  const spacing = () => pawWidth() * .086;
+  const pawAngle = .3;
+  const claws = [[.952,.29],[.986,.465],[.984,.695],[.912,.865]];
+  function clawOffset(i) {
+    const x = (claws[i][0] - .975) * pawWidth(), y = (claws[i][1] - .56) * pawWidth() * .5;
+    return [x * Math.cos(pawAngle) - y * Math.sin(pawAngle), x * Math.sin(pawAngle) + y * Math.cos(pawAngle)];
+  }
   function scratchY(i, x) {
-    return h * .39 + (i - 1.5) * spacing() + (1 - x / w) * h * .045 + Math.sin(x * .22 + i * 7) * 1.1 + Math.sin(x * .61 + i) * .65;
+    return h * .39 + clawOffset(i)[1] + (1 - (x - clawOffset(i)[0]) / w) * h * .045 + Math.sin(x * .22 + i * 7) * 1.1 + Math.sin(x * .61 + i) * .65;
   }
   function boundary(i, x) { return i < 0 ? -80 : i > 3 ? h + 80 : scratchY(i, x); }
   function bandPath(i, left, right) {
@@ -59,13 +69,13 @@
     ctx.closePath();
   }
   function drawScratches(progress, opening) {
-    const left = w * (.86 - progress * .72), right = w * .86;
     if (!progress) return;
     for (let i = 0; i < 4; i++) {
-      ctx.beginPath(); for (let x = right; x >= left; x -= 3) ctx.lineTo(x, scratchY(i, x));
-      ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.strokeStyle = '#000'; ctx.lineWidth = 1.2 + opening * (5 + i % 2 * 2); ctx.stroke(); ctx.restore();
+      const left = w * .16 + clawOffset(i)[0], right = w * (.16 + progress * .7) + clawOffset(i)[0];
+      ctx.beginPath(); for (let x = left; x <= right; x += 3) ctx.lineTo(x, scratchY(i, x));
+      ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.strokeStyle = '#000'; ctx.lineWidth = 3 + opening * (5 + i % 2 * 2); ctx.stroke(); ctx.restore();
       ctx.save(); ctx.translate(0, -1.6 - opening * 3); ctx.strokeStyle = '#ffffffc0'; ctx.lineWidth = 1.2; ctx.stroke(); ctx.restore();
-      ctx.strokeStyle = '#908b7c75'; ctx.lineWidth = .6;
+      ctx.strokeStyle = '#706753a0'; ctx.lineWidth = .85;
       for (let x = left + 6; x < right; x += 11) {
         const y = scratchY(i, x), length = 2 + Math.sin(x * 2) * 1.5;
         ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + length * 1.5, y - length); ctx.stroke();
@@ -94,20 +104,21 @@
   }
   function draw(now) {
     if (done) return; if (!start) start = now;
-    const t = (now - start) / 1000, entry = smooth(t / .6), scratch = smooth((t - .65) / 1.2), retreat = smooth((t - 2) / .65);
-    base(); drawScratches(scratch, smooth((t - 1.7) / .8));
-    for (let i = 0; i < 5; i++) peelStrip(i, clamp((t - 2.4 - [0.24, .1, 0, .16, .3][i]) / 2.4));
+    const t = (now - start) / 1000, entry = smooth(t / .7), scratch = smooth((t - 1.05) / 1.25), retreat = smooth((t - 2.45) / .65);
+    base(); drawScratches(scratch, smooth((t - 1.25) / 1.5));
+    for (let i = 0; i < 5; i++) peelStrip(i, clamp((t - 2.95 - [0.24, .1, 0, .16, .3][i]) / 2.4));
     if (retreat < 1) {
-      const pw = pawWidth(), ph = pw * .5, tip = w * (1.06 - entry * .2 - scratch * .72 + retreat * 1.25);
-      const py = h * .39 - ph * .49 + (1 - tip / w) * h * .045;
+      const pw = pawWidth(), ph = pw * .5, tip = w * (-.22 + entry * .38 + scratch * .7 - retreat * 1.35);
+      const py = h * .39 + (1 - tip / w) * h * .045 - Math.sin(retreat * Math.PI) * 65;
       ctx.save(); ctx.shadowColor = '#29251935'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 12;
-      const left = tip - pw * .05, end = left + pw;
-      if (end < w + 30) ctx.drawImage(paw, paw.naturalWidth - 5, 0, 5, paw.naturalHeight, end - 2, py, w + 32 - end, ph);
-      ctx.drawImage(paw, left, py, pw, ph); ctx.restore();
+      ctx.translate(tip, py); ctx.rotate(pawAngle);
+      ctx.drawImage(paw, 0, 0, 5, paw.naturalHeight, -pw * .975 - w * 2, -ph * .56, w * 2 + 2, ph);
+      ctx.drawImage(paw, -pw * .975, -ph * .56, pw, ph); ctx.restore();
     }
-    entrance.classList.toggle('tearing', t > 2.35);
-    entrance.dataset.phase = t < .65 ? 'arriving' : t < 2 ? 'scratching' : t < 2.7 ? 'lifting' : 'peeling';
-    if (t >= 5.35) { finish(); return; } raf = requestAnimationFrame(draw);
+    entrance.classList.toggle('tearing', t > 2.9);
+    entrance.dataset.phase = t < .7 ? 'arriving' : t < 1.05 ? 'positioning' : t < 2.3 ? 'scratching' : t < 3.1 ? 'lifting' : 'peeling';
+    entrance.dataset.scratchProgress = scratch.toFixed(3);
+    if (t >= 5.9) { finish(); return; } raf = requestAnimationFrame(draw);
   }
   function begin() {
     if (done || running || !paw.complete || !paw.naturalWidth || !painting.complete || !painting.naturalWidth) return;
@@ -125,5 +136,5 @@
   reduced.addEventListener('change', event => { if (event.matches) finish(); });
   window.addEventListener('resize', resize); document.addEventListener('visibilitychange', visibility);
   resize(); paw.onload = painting.onload = begin; paw.onerror = painting.onerror = finish;
-  paw.src = 'assets/tuxedo-paw.webp'; painting.src = 'assets/monet-agapanthus.webp';
+  linen.src = 'assets/linen-canvas.webp'; paw.src = 'assets/tuxedo-paw-impasto.webp'; painting.src = 'assets/watergarden-shorthair.webp';
 })();

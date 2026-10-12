@@ -88,19 +88,45 @@
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)request();});
   });
 
-  // Prepare the title before the paper peels, so it never flashes and disappears.
-  if(!reduced.matches && 'IntersectionObserver' in window && !document.querySelector('#entrance').hidden){
-    document.querySelectorAll('.hero-copy > *').forEach(node=>node.classList.add('reveal-item','reveal-pending'));
+  // Keep each original text node accessible; the painted copies are decorative.
+  // Each glyph is uncovered by a ragged brush-shaped mask, in reading order.
+  const painted = [];
+  function preparePaint(){
+    if(reduced.matches || !('IntersectionObserver' in window)) return;
+    const roots=document.querySelectorAll('.hero-copy, .canvas-gallery');
+    roots.forEach(root=>{
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+        return node.textContent.trim() && !node.parentElement.closest('svg, canvas, .paint-run') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }});
+      const textNodes=[]; while(walker.nextNode()) textNodes.push(walker.currentNode);
+      textNodes.forEach(text=>{
+        const run=document.createElement('span'); run.className='paint-run paint-pending';
+        const source=document.createElement('span'); source.className='paint-source'; source.textContent=text.textContent; run.append(source);
+        const visible=document.createElement('span'); visible.setAttribute('aria-hidden','true');
+        let index=0;
+        // Keep Latin words together while allowing Japanese to wrap naturally.
+        text.textContent.split(/([A-Za-z0-9_./@×—-]+|\s+)/).filter(Boolean).forEach(part=>{
+          if(/^\s+$/.test(part)){visible.append(document.createTextNode(part));return;}
+          const word=document.createElement('span'); word.className=/^[A-Za-z0-9_./@×—-]+$/.test(part)?'paint-word':'paint-phrase';
+          Array.from(part).forEach(char=>{
+            const glyph=document.createElement('span'); glyph.className='paint-glyph'; glyph.textContent=char;
+            glyph.style.setProperty('--ink-delay',`${Math.min(index++ * 24,1300)}ms`); word.append(glyph);
+          });visible.append(word);
+        });
+        run.append(visible);text.replaceWith(run);painted.push(run);
+      });
+    });
   }
-  // Text stays readable without JS, reduced motion, or IntersectionObserver.
+  preparePaint();
   function revealText(){
-    if(reduced.matches||!('IntersectionObserver' in window))return;
-    const nodes=[...document.querySelectorAll('.hero-copy > *, .section-kicker, .intro-grid > *, .section-heading h2, .activity-card, .timeline-card, .project-item, .article-card, .talk-row, .interest-layout')];
+    if(!painted.length)return;
     const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(entry.isIntersecting){entry.target.classList.remove('reveal-pending');entry.target.classList.add('revealed');observer.unobserve(entry.target);}
-    }),{threshold:.06});
-    nodes.forEach((node,i)=>{node.classList.add('reveal-item','reveal-pending');node.style.setProperty('--reveal-delay',`${i%3*75}ms`);observer.observe(node);});
-    reduced.addEventListener('change',event=>{if(event.matches){nodes.forEach(node=>node.classList.remove('reveal-pending'));observer.disconnect();}});
+      if(entry.isIntersecting){entry.target.classList.replace('paint-pending','paint-drawing');observer.unobserve(entry.target);}
+    }),{threshold:0,rootMargin:'0px 0px -24px 0px'});
+    painted.forEach(node=>observer.observe(node));
+    // Keyboard focus immediately exposes a link, even before its scroll reveal.
+    document.addEventListener('focusin',event=>event.target.querySelectorAll('.paint-pending').forEach(node=>node.classList.replace('paint-pending','paint-drawing')));
+    reduced.addEventListener('change',event=>{if(event.matches){painted.forEach(node=>node.classList.remove('paint-pending','paint-drawing'));observer.disconnect();}});
   }
   if(document.querySelector('#entrance').hidden)revealText();
   else document.addEventListener('garden-entered',revealText,{once:true});

@@ -2,7 +2,7 @@
 
 ## Claude Monet — Water Lilies (Agapanthus), c. 1915–26
 
-- Used in the hero: `assets/monet-agapanthus.webp` (2000 × 930).
+- Archived asset, no longer used in the hero: `assets/monet-agapanthus.webp` (2000 × 930).
 - Cleveland Museum of Art, accession 1960.81; John L. Severance Fund and an anonymous gift.
 - Official record: https://www.clevelandart.org/art/1960.81
 - Source: https://openaccess-cdn.clevelandart.org/1960.81/1960.81_print.jpg
@@ -17,7 +17,7 @@
 - Downloaded reproduction: https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1933.1157_-_Art_Institute_of_Chicago.jpg
 - The file page credits the Art Institute of Chicago and labels the reproduction CC0 / public domain. Resized and encoded as WebP.
 
-## Painted tuxedo-cat paw
+## Earlier painted tuxedo-cat paw (replaced)
 
 - Asset: `assets/tuxedo-paw.webp` (1400 × 700, alpha preserved).
 - Generated using the built-in Imagegen tool. The user's reference images informed the scratch direction and framing; they are not embedded in the site.
@@ -25,4 +25,4 @@
 
 ## Paper and water
 
-The entrance canvas uses procedural linen weave, cotton fibers, soft lighting, four ragged claw tracks, and five curled paper strips with cast shadows. Water surfaces use the paintings as WebGL textures with radial refraction, a lit crest, and a shadow; four independent wave fronts can overlap. No sound or automatic recurring animation is used.
+The current entrance uses the generated linen material documented in `ASSET-PROMPTS-IMPASTO.md`, procedural cotton fibers, soft lighting, four ragged claw tracks, and five curled paper strips with cast shadows. Water surfaces use the paintings as WebGL textures with radial refraction, a lit crest, and a shadow; four independent wave fronts can overlap. No sound or automatic recurring animation is used.

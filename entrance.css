@@ -14,7 +14,7 @@
 a .line-arrow{transition:translate .2s}
 a:hover .line-arrow.out{translate:2px -2px}
 a:hover .line-arrow.down{translate:0 3px}
-.edition-oil .garden{background-image:url('assets/monet-agapanthus.webp')}
+.edition-oil .garden{background-image:url('assets/watergarden-shorthair.webp')}
 .edition-oil .garden-tools{display:none}
 .painting-interlude{height:240px;margin:12px 7.1% 55px;position:relative;overflow:hidden;clip-path:polygon(0 5%,19% 2%,40% 4%,63% 0,81% 3%,100% 1%,99% 91%,83% 97%,60% 94%,38% 100%,16% 96%,1% 99%)}
 .painting-interlude img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;filter:saturate(.7)}
@@ -32,16 +32,25 @@ a:hover .line-arrow.down{translate:0 3px}
 .painting-water canvas{opacity:0;transition:opacity .6s}
 .painting-water.ready canvas{opacity:1}
 .painting-interlude::after{display:none}
-.painting-interlude figcaption{display:flex;justify-content:space-between;font-family:var(--serif);font-size:17px;color:var(--muted);padding-top:13px}
-.painting-interlude figcaption span{font-size:14px;font-style:italic}
-.water-hint{font-size:10px;letter-spacing:.08em;display:flex;gap:13px;align-items:center;color:#404d45}
-.water-hint span{font-size:25px}
-.reveal-item{transition:opacity .85s ease,transform .85s cubic-bezier(.2,.65,.3,1),filter .85s;transition-delay:var(--reveal-delay,0ms)}
-.reveal-pending{opacity:0;transform:translateY(17px);filter:blur(3px)}
-.artwork-credits{font-size:10px;color:var(--muted);padding-bottom:25px}
-.artwork-credits summary{cursor:pointer;min-height:44px;display:flex;align-items:center;list-style:none}
-.artwork-credits summary::after{content:'+';margin-left:12px}
-.artwork-credits[open] summary::after{content:'−'}
-.artwork-credits a{text-decoration:underline;text-underline-offset:4px;line-height:2.5}
-@media(max-width:760px){.painting-interlude{margin:5px 7% 40px}.painting-water{height:330px}.painting-interlude figcaption{font-size:15px}.painting-interlude figcaption span{font-size:12px}.water-hint{font-size:9px}.water-hint span{font-size:21px}}
-@media(prefers-reduced-motion:reduce){.reveal-pending{opacity:1;transform:none;filter:none}.reveal-item{transition:none}}
+
+/* Information sits directly on gessoed linen, with the canvas edge and fold light. */
+.canvas-gallery{position:relative;isolation:isolate;margin:22px 2.4% 40px;padding:25px 0 15px;background:#f4f1e7;box-shadow:0 2px 4px #36342412,0 16px 38px #3634240b;border:1px solid #ffffffb0}
+.canvas-gallery::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,#fff8 0%,#fff2 37%,#9d917009 49.6%,#fff8 50.1%,#fff3 51%,#fff5 100%),url('assets/linen-canvas.webp') 0 0/600px 600px;opacity:.62;pointer-events:none}
+.edition-oil .canvas-gallery .tinted-section,.edition-oil .canvas-gallery .projects-section{background:transparent}
+.canvas-gallery .section-kicker{border-top-color:#aaa28e66}
+.canvas-gallery .profile-list>div,.canvas-gallery .timeline-card,.canvas-gallery .project-item,.canvas-gallery .article-card{border-bottom-color:#aaa28e50}
+.canvas-gallery .keyword-cloud>span{border-color:#a29d8960;background:#fff2}
+.painting-water{box-shadow:0 5px 13px #35362920,inset 0 0 3px #fff}
+.paint-source{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.paint-word{white-space:nowrap}
+.paint-glyph{display:inline-block;position:relative;white-space:pre}
+.paint-pending .paint-glyph{clip-path:inset(0 100% 0 0)}
+.paint-drawing .paint-glyph{animation:paint-letter .48s cubic-bezier(.22,.65,.35,1) var(--ink-delay,0ms) both}
+@keyframes paint-letter{
+  0%{clip-path:polygon(0 0,0 0,0 100%,0 100%)}
+  32%{clip-path:polygon(0 0,37% 0,21% 11%,42% 23%,25% 38%,36% 52%,17% 67%,28% 81%,10% 100%,0 100%)}
+  70%{clip-path:polygon(0 0,85% 0,68% 13%,89% 26%,73% 40%,83% 54%,64% 69%,78% 83%,60% 100%,0 100%)}
+  100%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+}
+@media(max-width:760px){.painting-interlude{margin:5px 7% 40px}.painting-water{height:330px}.canvas-gallery{margin:8px 12px 25px;padding-top:5px}.canvas-gallery::before{background-size:auto,480px 480px}.canvas-gallery .section-shell{padding-inline:6%}.paint-word{white-space:normal}}
+@media(prefers-reduced-motion:reduce){.paint-pending .paint-glyph{clip-path:none}.paint-drawing .paint-glyph{animation:none}}

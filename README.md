@@ -9,11 +9,12 @@ SabakanのPortfolioサイト。モネの睡蓮と、白い手先・黒い腕の�
 - `index.html`：プロフィール・活動・制作物・記事
 - `styles.css`：レイアウトとレスポンシブ表示
 - `oil-edition.css`：油彩版のレイアウト
-- `garden.js`：タップ位置から広がる水面の屈折・光・影と、文字のスクロール表示
-- `entrance.js` / `entrance.css`：猫の手が右から左へ引っ掻き、紙が帯状に剥がれる約5.4秒の入口演出
-- `assets/monet-agapanthus.webp`：冒頭の《Water Lilies (Agapanthus)》
+- `garden.js`：タップ位置から広がる水面の屈折・光・影と、一文字ずつ筆状マスクで描く文字表示
+- `entrance.js` / `entrance.css`：猫の手が登場中は傷を付けず、その後左から右へ引っ掻き、紙が帯状に剥がれる約5.9秒の入口演出
+- `assets/watergarden-shorthair.webp`：冒頭の睡蓮と短毛のハチワレ猫（オリジナルAI油彩）
 - `assets/monet-water-lilies-1906.webp`：本文の別作品《Water Lilies, 1906》
-- `assets/tuxedo-paw.webp`：油彩の猫の手（AI生成、透過WebP）
+- `assets/tuxedo-paw-impasto.webp`：厚塗り油彩の猫の手（AI生成、透過WebP）
+- `assets/linen-canvas.webp`：織り目と浅い折り目が見える白いキャンバス（AI生成）
 - `ASSETS-WATER-LILIES.md`：作品の出典と猫の手の生成指示
 - `assets/cat.svg`：ファビコン
 
@@ -25,3 +26,5 @@ WebGLが利用できない場合は静止画を表示します。2つの絵画�
 
 編集内容をmasterブランチにpushすると、GitHub Pagesが更新されます。
 公開用ファイルのみをコミットし、ローカルの資料や開発用フォルダーは含めません。
+
+冒頭以外の情報はキャンバス地に配置しています。絵画のキャプションと「水面にふれる」は表示しません。生成プロンプトは `ASSET-PROMPTS-IMPASTO.md` を参照。
