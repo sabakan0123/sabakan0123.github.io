@@ -132,7 +132,7 @@ body.edition-oil{--muted:#4f5951;--green:#4d6652;--line:#b8bcb0;font-size:17px;l
 /* Open compositions and diffuse pigment: readable type on an unframed canvas. */
 html{scroll-padding-top:88px}
 body.edition-oil{background-image:linear-gradient(#faf9f2b3,#faf9f2b3),url('assets/linen-canvas.webp')}
-.edition-oil .header{height:60px;border-bottom:0;background:linear-gradient(105deg,#f7f5eae8,#f3f4ebe0 60%,#efedf0df);backdrop-filter:blur(18px)}
+.edition-oil .header{height:70px;border-bottom:0;background:linear-gradient(105deg,#f7f5eae8,#f3f4ebe0 60%,#efedf0df);backdrop-filter:blur(18px)}
 .edition-oil .header .wordmark{font-size:28px}
 .edition-oil .header nav{font-size:14px}
 .edition-oil .header nav a[aria-current="location"]{box-shadow:none;text-decoration:underline;text-decoration-color:#758e6b88;text-decoration-thickness:3px;text-underline-offset:8px}
