@@ -128,3 +128,78 @@ body.edition-oil{--muted:#4f5951;--green:#4d6652;--line:#b8bcb0;font-size:17px;l
 }
 @media(prefers-reduced-motion:reduce){.edition-oil .article-card{transition:none}}
 @media(max-width:380px){html{scroll-padding-top:180px}.edition-oil .header{height:160px}.edition-oil .header nav{font-size:12px;gap:0 12px}.edition-oil .hero-copy{padding-top:210px}}
+
+/* Open compositions and diffuse pigment: readable type on an unframed canvas. */
+html{scroll-padding-top:88px}
+body.edition-oil{background-image:linear-gradient(#faf9f2b3,#faf9f2b3),url('assets/linen-canvas.webp')}
+.edition-oil .header{height:60px;border-bottom:0;background:linear-gradient(105deg,#f7f5eae8,#f3f4ebe0 60%,#efedf0df);backdrop-filter:blur(18px)}
+.edition-oil .header .wordmark{font-size:28px}
+.edition-oil .header nav{font-size:14px}
+.edition-oil .header nav a[aria-current="location"]{box-shadow:none;text-decoration:underline;text-decoration-color:#758e6b88;text-decoration-thickness:3px;text-underline-offset:8px}
+.edition-oil .header-contact{font-size:14px}
+.edition-oil .content-section{border:0;position:relative}
+.edition-oil .content-section .section-heading{top:94px}
+.edition-oil .canvas-gallery::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 50% 12% at 90% 14%,#8caa9640,transparent 80%),radial-gradient(ellipse 50% 10% at 5% 32%,#aaa3ba3d,transparent 80%),radial-gradient(ellipse 60% 14% at 95% 51%,#c3bd8b35,transparent 80%),radial-gradient(ellipse 45% 12% at 8% 73%,#8faeaa30,transparent 80%),radial-gradient(ellipse 60% 10% at 90% 93%,#b7aac530,transparent 80%)}
+.edition-oil .content-section::before{content:'';position:absolute;left:5%;top:0;width:56%;height:65px;background:url('assets/pond-pigment.webp') center/100% 100% no-repeat;opacity:.075;transform:rotate(-3deg);pointer-events:none}
+.edition-oil .content-section:nth-of-type(even)::before{left:auto;right:3%;transform:rotate(4deg);opacity:.09}
+.edition-oil .activity-card,.edition-oil .project-item,.edition-oil .talk-row{border:0;background:transparent}
+.edition-oil .project-list{column-gap:50px;row-gap:48px}
+.edition-oil .project-item{padding:16px 0 32px;position:relative}
+.edition-oil .project-item::after{content:'';position:absolute;left:0;bottom:0;width:72%;height:16px;background:url('assets/pond-pigment.webp') center/100% 100% no-repeat;opacity:.16;pointer-events:none}
+.edition-oil .talk-row{padding:12px 0 28px}
+.edition-oil .canvas-gallery .section-heading h2::after{opacity:.65;transform:rotate(-7deg)}
+.edition-oil #activities>.section-shell{display:block}
+.edition-oil #activities .section-heading{position:relative;top:auto;margin-bottom:58px}
+.edition-oil #activities .section-heading h2::after{position:absolute;left:320px;bottom:-8px;width:min(42vw,480px);height:98px;opacity:.25;transform:rotate(-7deg)}
+.edition-oil .activity-grid{display:flex;flex-direction:column;gap:64px}
+.edition-oil .activity-card{display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;padding:14px 0 24px;position:relative}
+.edition-oil .activity-card::before{content:'';position:absolute;inset:-28px 0 -18px 16%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 30% 50%,#97ad9c25,transparent 70%);transform:rotate(-4deg)}
+.edition-oil .competition-card::before{background:radial-gradient(ellipse at 70% 50%,#ada0be30,transparent 72%);transform:rotate(3deg)}
+.edition-oil .activity-card:last-child::before{background:radial-gradient(ellipse at 50% 50%,#c6bc8730,transparent 70%)}
+.edition-oil .activity-label h3{font-family:var(--serif);font-size:34px;line-height:1.25;font-weight:400}
+.edition-oil .card-index{font-family:var(--serif);font-style:italic;font-size:19px;color:#647863;margin-bottom:8px}
+.edition-oil .activity-body{min-width:0}
+.edition-oil .cve-intro{margin-bottom:24px}
+.edition-oil .cve-list{gap:42px}
+.edition-oil .cve-list li,.edition-oil .cve-list li+li{border:0;padding-top:0;margin:0}
+.edition-oil .competition-card .competition-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.edition-oil .competition-card .competition-list li+li{border:0;margin:0;padding:0}
+.edition-oil .competition-card .competition-list h4{font-size:18px}
+.edition-oil .activity-card:last-child .activity-body{padding-top:8px}
+.edition-oil .article-card{border-bottom-color:#aaa28e30}
+.edition-oil .article-card:hover{background:radial-gradient(ellipse at 45% 50%,#96ac9228,transparent 75%)}
+.edition-oil .article-card h3{font-weight:400}
+.edition-oil .canvas-gallery .profile-list>div,.edition-oil .canvas-gallery .timeline-card{border-bottom-color:#aaa28e35}
+.edition-oil .keyword-cloud>span{border:0;background:#b1bda114;border-radius:45% 55% 48% 52% / 50% 42% 58% 50%}
+@media(max-width:1150px){
+ .edition-oil .activity-card{grid-template-columns:200px minmax(0,1fr);gap:32px}
+ .edition-oil .competition-card .competition-list{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:900px){
+ .edition-oil .activity-card{grid-template-columns:1fr;gap:24px}
+ .edition-oil #activities .section-heading h2::after{left:260px;width:36vw}
+ .edition-oil .competition-card .competition-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ html{scroll-padding-top:116px}
+ .edition-oil .header{height:98px;padding-top:8px}
+ .edition-oil .header .wordmark{font-size:26px}
+ .edition-oil .header nav{font-size:12px;gap:0 10px;margin-top:2px}
+ .edition-oil .header nav a{min-height:44px}
+ .edition-oil .hero-copy{padding-top:156px}
+ .edition-oil .activity-grid{gap:46px}
+ .edition-oil .activity-card{padding:0;gap:24px}
+ .edition-oil .activity-label h3{font-size:31px}
+ .edition-oil .cve-list,.edition-oil .competition-card .competition-list{grid-template-columns:1fr;gap:28px}
+ .edition-oil #activities .section-heading{margin-bottom:42px}
+ .edition-oil #activities .section-heading h2::after{left:auto;right:0;bottom:0;width:44%;height:68px;opacity:.2}
+ .edition-oil .activity-card::before{inset:-18px 0 -12px 0}
+ .edition-oil .project-item,.edition-oil .talk-row{padding:12px 0 28px}
+ .edition-oil .content-section::before{width:85%;height:35px;opacity:.06}
+}
+@media(max-width:380px){
+ html{scroll-padding-top:116px}
+ .edition-oil .header{height:98px}
+ .edition-oil .header nav{font-size:11px;gap:0 8px}
+ .edition-oil .hero-copy{padding-top:156px}
+}
