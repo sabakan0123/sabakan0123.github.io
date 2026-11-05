@@ -97,7 +97,13 @@
   function revealText(){
     if(reduced.matches || !('IntersectionObserver' in window))return;
     const groups=new Map();
-    inkNodes.forEach(node=>{node.classList.add('ink-pending');const parent=node.parentElement;if(!groups.has(parent))groups.set(parent,[]);groups.get(parent).push(node);});
+    inkNodes.forEach(node=>{
+      node.classList.add('ink-pending');
+      // Observe a real box: these wrappers use display:contents on desktop.
+      const parent=node.parentElement.matches('.activity-label,.cve-card .activity-body') ? node.closest('.activity-card') : node.parentElement;
+      if(!groups.has(parent))groups.set(parent,[]);
+      groups.get(parent).push(node);
+    });
     inkObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
       if(entry.isIntersecting){groups.get(entry.target).forEach(node=>node.classList.replace('ink-pending','ink-drawing'));inkObserver.unobserve(entry.target);}
     }),{threshold:.06});

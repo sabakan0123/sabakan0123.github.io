@@ -203,3 +203,15 @@ body.edition-oil{background-image:linear-gradient(#faf9f2b3,#faf9f2b3),url('asse
  .edition-oil .header nav{font-size:11px;gap:0 8px}
  .edition-oil .hero-copy{padding-top:156px}
 }
+
+/* Share baselines across the label and content, independent of their font sizes. */
+@media(min-width:901px){
+ .edition-oil .activity-card{align-items:first baseline;row-gap:16px}
+ .edition-oil .activity-label,.edition-oil .cve-card .activity-body{display:contents}
+ .edition-oil .activity-label .card-index{grid-column:1;grid-row:1;margin:0}
+ .edition-oil .activity-label h3{grid-column:1;grid-row:2;margin:0}
+ .edition-oil .activity-body,.edition-oil .cve-list{grid-column:2;grid-row:2}
+ .edition-oil .cve-intro{grid-column:2;grid-row:1;margin:0}
+ .edition-oil .activity-card .competition-list{align-items:first baseline}
+ .edition-oil .activity-card:last-child .activity-body{padding-top:0}
+}
