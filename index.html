@@ -10,10 +10,12 @@
 <link href="styles.css" rel="stylesheet"/><link href="oil-edition.css?v=cve-1" rel="stylesheet"/>
 <link as="image" href="assets/watergarden-shorthair.webp" rel="preload"/>
 <link href="entrance.css?v=canvas-7" rel="stylesheet"/>
+<link href="readability.css?v=1" rel="stylesheet"/>
 <link as="image" href="assets/tuxedo-paw-impasto.webp" rel="preload"/>
 <script defer src="entrance.js?v=canvas-6"></script>
 <script defer src="garden.js?v=canvas-7"></script>
 <script defer src="footsteps.js?v=canvas-7"></script>
+<script defer src="navigation.js?v=1"></script>
 </head>
 <body class="edition-oil">
 <canvas id="paw-trail" aria-hidden="true"></canvas>
@@ -24,7 +26,7 @@
 <a class="skip" href="#profile">本文へ移動</a>
 <header class="header">
 <a aria-label="Sabakan ホーム" class="wordmark" href="#home">Sabakan<span class="brand-dot">.</span></a>
-<nav aria-label="メインナビゲーション"><a href="#profile">About</a><a href="#jobs">Jobs</a><a href="#activities">Activities</a><a href="#talks">Talks</a><a href="#projects">Projects</a><a href="#information">Information</a></nav>
+<nav aria-label="メインナビゲーション"><a href="#profile">プロフィール</a><a href="#activities">実績</a><a href="#projects">制作物</a><a href="#talks">登壇</a><a href="#jobs">経歴</a><a href="#information">記事</a></nav>
 <a class="header-contact" href="https://github.com/sabakan0123">GitHub <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a>
 </header>
 <main><section aria-labelledby="hero-title" class="hero" id="home">
@@ -42,7 +44,7 @@
 </section><div class="canvas-gallery"><section class="intro-band section-shell" id="profile">
 <div class="section-kicker">01 / PROFILE</div>
 <div class="intro-grid">
-<h2>Profile</h2>
+<h2>Profile<span class="heading-caption">プロフィール</span></h2>
 <div class="profile-copy">
 <dl class="profile-list">
 <div><dt>名前</dt><dd>Sabakan</dd></div>
@@ -61,26 +63,17 @@
 <span>Cybersecurity</span><span>CTI</span><span>OSINT</span><span>Web</span><span>Community</span><span>Space × Cyber</span>
 </div>
 </div>
-</section><section class="content-section section-shell" id="jobs">
-<div class="section-heading"><div class="section-kicker">02 / JOBS</div><h2>Jobs</h2></div>
-<div class="jobs-timeline">
-<article class="timeline-card">
-<div class="timeline-date"><time datetime="2025-11">2025/11</time> —<br/><time datetime="2028-03">2028/03</time>（予定）</div>
-<div aria-hidden="true" class="timeline-marker"></div>
-<div class="timeline-content"><h3>学生</h3></div>
-<span class="status-pill">現在</span>
-</article>
-<article class="timeline-card muted-card">
-<div class="timeline-date"><time datetime="2025-09">2025/09</time> —<br/><time datetime="2026-05">2026/05</time></div>
-<div aria-hidden="true" class="timeline-marker"></div>
-<div class="timeline-content"><h3>ソフトウェアエンジニア</h3><p>業務委託</p></div>
-</article>
-</div>
 </section><section class="content-section tinted-section" id="activities">
 <div class="section-shell">
-<div class="section-heading"><div class="section-kicker">03 / ACTIVITIES</div><h2>Activities</h2></div>
+<div class="section-heading"><div class="section-kicker">02 / ACTIVITIES</div><h2>Activities<span class="heading-caption">実績・活動</span></h2></div>
 <div class="activity-grid">
-<article class="activity-card"><span class="card-index">01</span><h3>Community</h3><h4>WOLF VILLAGE</h4><p>創立・運営</p><div class="community-links"><a class="card-link" href="https://wolfvillage.org/" rel="noreferrer" target="_blank">Website <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a class="card-link" href="https://wolfvillage.connpass.com/" rel="noreferrer" target="_blank">connpass <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a aria-label="WOLF VILLAGEのX（@WOLFVILLAGE_630）" class="card-link" href="https://x.com/WOLFVILLAGE_630" rel="noreferrer" target="_blank">X <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div></article>
+<article class="activity-card cve-card" id="cve-reports"><span class="card-index">01</span><h3>CVE / Vulnerability Reports</h3>
+<p class="cve-intro">Linuxカーネル（ksmbd）の脆弱性報告 / 報告者：Sabakan</p>
+<ul class="competition-list cve-list">
+<li><h4>CVE-2026-74494</h4><p>認証前のSMB2 NEGOTIATE要求の繰り返しによって発生するメモリリーク。</p><a class="card-link" href="https://access.redhat.com/security/cve/cve-2026-74494" rel="noreferrer" target="_blank" aria-label="CVE-2026-74494の詳細（Red Hat）">CVE詳細（Red Hat） <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></li>
+<li><h4>CVE-2026-90169</h4><p>SMB 3.1.1のマルチチャネル接続で、認証処理中の切断時に発生する認証前セッションのメモリリーク。</p><a class="card-link" href="https://kernel-team.pages.debian.net/kernel-sec/CVE-2026-90169.html" rel="noreferrer" target="_blank" aria-label="CVE-2026-90169の詳細（Debian）">CVE詳細（Debian） <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></li>
+</ul>
+</article>
 <article class="activity-card competition-card"><span class="card-index">02</span><h3>CTF / Competitions</h3>
 <ul class="competition-list">
 <li><h4>JOAI 2026</h4><p>金メダル / オープン枠3位</p><a class="card-link" href="https://zenn.dev/sabakan1/articles/ecd5c9ba823a91" rel="noreferrer" target="_blank">参加記 <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></li>
@@ -88,21 +81,13 @@
 <li><h4>Diver OSINT CTF</h4><p>43位 / 865チーム（WOLF VILLAGEとして参加）</p></li>
 </ul>
 </article>
-<article class="activity-card cve-card" id="cve-reports"><span class="card-index">03</span><h3>CVE / Vulnerability Reports</h3>
-<p class="cve-intro">Linuxカーネル（ksmbd）の脆弱性報告 / 報告者：Sabakan</p>
-<ul class="competition-list cve-list">
-<li><h4>CVE-2026-74494</h4><p>認証前のSMB2 NEGOTIATE要求の繰り返しによって発生するメモリリーク。</p><a class="card-link" href="https://access.redhat.com/security/cve/cve-2026-74494" rel="noreferrer" target="_blank" aria-label="CVE-2026-74494の詳細（Red Hat）">CVE詳細（Red Hat） <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></li>
-<li><h4>CVE-2026-90169</h4><p>SMB 3.1.1のマルチチャネル接続で、認証処理中の切断時に発生する認証前セッションのメモリリーク。</p><a class="card-link" href="https://kernel-team.pages.debian.net/kernel-sec/CVE-2026-90169.html" rel="noreferrer" target="_blank" aria-label="CVE-2026-90169の詳細（Debian）">CVE詳細（Debian） <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></li>
-</ul>
-</article>
+<article class="activity-card"><span class="card-index">03</span><h3>Community</h3><h4>WOLF VILLAGE</h4><p>創立・運営</p><div class="community-links"><a class="card-link" href="https://wolfvillage.org/" rel="noreferrer" target="_blank">Website <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a class="card-link" href="https://wolfvillage.connpass.com/" rel="noreferrer" target="_blank">connpass <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a aria-label="WOLF VILLAGEのX（@WOLFVILLAGE_630）" class="card-link" href="https://x.com/WOLFVILLAGE_630" rel="noreferrer" target="_blank">X <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div></article>
 </div>
 </div>
-</section><section class="content-section section-shell" id="talks">
-<div class="section-heading"><div class="section-kicker">04 / TALKS</div><h2>Talks</h2></div>
-<div class="talk-row"><time class="talk-date" datetime="2026-09-04">2026/09/04</time><div><h3>WOLF VILLAGE NIGHT #1</h3><p>WOLF VILLAGE / 登壇</p><div class="project-links"><a href="https://www.docswell.com/s/sabakan_cat/5Y86Y9-2026-10-12-194756" rel="noreferrer" target="_blank">登壇資料を見る <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div></div></div>
-</section><section class="content-section projects-section" id="projects">
+</section>
+<section class="content-section projects-section" id="projects">
 <div class="section-shell">
-<div class="section-heading"><div class="section-kicker">05 / PROJECTS</div><h2>Projects</h2></div>
+<div class="section-heading"><div class="section-kicker">03 / PROJECTS</div><h2>Projects<span class="heading-caption">制作物</span></h2></div>
 <div class="project-list">
 <article class="project-item">
 <div class="project-number">01</div>
@@ -122,14 +107,35 @@
 </article>
 </div>
 </div>
-</section><section class="content-section section-shell" id="information">
-<div class="section-heading"><div class="section-kicker">06 / INFORMATION</div><h2>Information</h2></div>
+</section>
+<section class="content-section section-shell" id="talks">
+<div class="section-heading"><div class="section-kicker">04 / TALKS</div><h2>Talks<span class="heading-caption">登壇</span></h2></div>
+<div class="talk-row"><time class="talk-date" datetime="2026-09-04">2026/09/04</time><div><h3>WOLF VILLAGE NIGHT #1</h3><p>WOLF VILLAGE / 登壇</p><div class="project-links"><a href="https://www.docswell.com/s/sabakan_cat/5Y86Y9-2026-10-12-194756" rel="noreferrer" target="_blank">登壇資料を見る <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div></div></div>
+</section>
+<section class="content-section section-shell" id="jobs">
+<div class="section-heading"><div class="section-kicker">05 / EXPERIENCE</div><h2>Experience<span class="heading-caption">経歴</span></h2></div>
+<div class="jobs-timeline">
+<article class="timeline-card">
+<div class="timeline-date"><time datetime="2025-11">2025/11</time> —<br/><time datetime="2028-03">2028/03</time>（予定）</div>
+<div aria-hidden="true" class="timeline-marker"></div>
+<div class="timeline-content"><h3>学生</h3></div>
+<span class="status-pill">現在</span>
+</article>
+<article class="timeline-card muted-card">
+<div class="timeline-date"><time datetime="2025-09">2025/09</time> —<br/><time datetime="2026-05">2026/05</time></div>
+<div aria-hidden="true" class="timeline-marker"></div>
+<div class="timeline-content"><h3>ソフトウェアエンジニア</h3><p>業務委託</p></div>
+</article>
+</div>
+</section>
+<section class="content-section section-shell" id="information">
+<div class="section-heading"><div class="section-kicker">06 / BLOG</div><h2>Blog<span class="heading-caption">記事・発信</span></h2></div>
 <div class="article-grid">
 <a class="article-card" href="https://wolfvillage.org/blog-wolf-village-introduction.html" rel="noreferrer" target="_blank"><div class="article-meta"><span>WOLF VILLAGE</span></div><h3>WOLF VILLAGE 初心者の悩みを聞こうの会～運営者としての想い～</h3><div class="article-bottom"><time datetime="2026-11-04">2026/11/04</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
 <a class="article-card" href="https://engineers.ntt.com/entry/202609-sop-internship/entry" rel="noreferrer" target="_blank"><div class="article-meta"><span>NTT docomo Business Engineers' Blog</span></div><h3>2026年度 情報セキュリティ部のインターンシップの様子を紹介します！</h3><div class="article-bottom"><time datetime="2026-10-05">2026/10/05</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
+<a class="article-card" href="https://qiita.com/Sabakan0123/items/8a937781391763ff1bb2" rel="noreferrer" target="_blank"><div class="article-meta"><span>Qiita</span></div><h3>セキュリティを学ぶ学生、"孤高の狼"になってませんか? — 学生コミュニティを作りたい話</h3><div class="article-bottom"><time datetime="2026-05-14">2026/05/14</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
 <a class="article-card" href="https://zenn.dev/sabakan1/articles/57ca07f4b277b4" rel="noreferrer" target="_blank"><div class="article-meta"><span>Zenn</span></div><h3>【検出率100%】セキュリティ診断、Claude Codeに全部やらせる時代が来た</h3><div class="article-bottom"><time datetime="2026-05-01">2026/05/01</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
 <a class="article-card" href="https://zenn.dev/sabakan1/articles/bd286802d6a91d" rel="noreferrer" target="_blank"><div class="article-meta"><span>Zenn</span></div><h3>セキュリティ診断、AIに全部やらせたら月$0.5で回せるようになった話💰</h3><div class="article-bottom"><time datetime="2026-04-30">2026/04/30</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
-<a class="article-card" href="https://qiita.com/Sabakan0123/items/8a937781391763ff1bb2" rel="noreferrer" target="_blank"><div class="article-meta"><span>Qiita</span></div><h3>セキュリティを学ぶ学生、"孤高の狼"になってませんか? — 学生コミュニティを作りたい話</h3><div class="article-bottom"><time datetime="2026-05-14">2026/05/14</time><span aria-hidden="true"><svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></span></div></a>
 </div>
 <div class="publication-links"><a href="https://zenn.dev/sabakan1" rel="noreferrer" target="_blank">Zenn <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a href="https://qiita.com/Sabakan0123" rel="noreferrer" target="_blank">Qiita <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a><a href="https://github.com/sabakan0123" rel="noreferrer" target="_blank">GitHub <svg class="line-arrow out" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg></a></div>
 </section></div></main>
